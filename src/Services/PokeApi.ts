@@ -17,7 +17,6 @@ export const getPokemonCount = (resData:any):number =>{
     return resData.count
 }
 
-export const prefetchDataState = (pokemonName:string) =>{
-    
-
+export const getPokemonImage=(ResData:any):string =>{
+    return ResData.sprites.other.dream_world.front_default
 }
