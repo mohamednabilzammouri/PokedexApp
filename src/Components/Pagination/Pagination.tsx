@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-function Pagination() {
-  return <div>Pagination</div>;
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import { MyPoKemonContext } from "../../Context/Context";
+import { PokemonsPerPage } from "../../Constants/PokemonsPerPage";
+import { StyledPagination } from "./PaginationStyle";
+
+export default function PaginationComponent() {
+  let { numberOfPokemons, setCurrentPage } = useContext(MyPoKemonContext);
+  const [count, setCount] = useState<number>();
+
+  const handleChange = (event: any, value: number) => {
+    setCurrentPage(value);
+  };
+
+  useEffect(() => {
+    numberOfPokemons !== undefined &&
+      setCount(Math.ceil(numberOfPokemons / PokemonsPerPage));
+    console.log(numberOfPokemons);
+  }, [numberOfPokemons]);
+
+  return (
+    <StyledPagination>
+      <Stack spacing={2}>
+        <Pagination
+          count={count}
+          variant="outlined"
+          shape="rounded"
+          onChange={handleChange}
+        />
+      </Stack>
+    </StyledPagination>
+  );
 }
-
-export default Pagination;

@@ -11,7 +11,7 @@ interface MyPokemonContextInit {
 export const MyPoKemonContext = createContext<MyPokemonContextInit>({});
 
 export function MyPoKemonContextProvider({ children }: any) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(10);
   const { pokemons, loader, numberOfPokemons } = useGetPokemonNameNumber(
     currentPage,
     PokemonsPerPage
