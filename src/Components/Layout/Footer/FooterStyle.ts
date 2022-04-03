@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
-import { colors } from "../../../Styles/Colors";
 
 
 export const FooterContainer = styled("div")`
   display:flex;
-  position: absolute;
-  bottom: 0;
+  position: relative;
   height: 5% ;
   width: 90%;
   justify-content: center;
+  text-align:center;
+  bottom: 0;
   
-`;
+`
