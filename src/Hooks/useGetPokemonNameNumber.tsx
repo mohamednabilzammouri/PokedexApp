@@ -41,7 +41,7 @@ function useGetPokemonNameNumberFromApi(
         })
         .catch(() => setError(true));
     } else {
-      setPokemons(JSON.parse(getItemFromLocalStorage(CurrentPage.toString())));
+      setPokemons(getItemFromLocalStorage(CurrentPage.toString()));
       setNumberOfPokemons(parseInt(getItemFromLocalStorage("count")));
 
       setLoader(false);

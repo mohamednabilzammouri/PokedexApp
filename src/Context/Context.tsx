@@ -7,6 +7,7 @@ interface MyPokemonContextInit {
   loader?: boolean;
   numberOfPokemons?: number;
   setCurrentPage?: any;
+  currentPage?: number;
 }
 export const MyPoKemonContext = createContext<MyPokemonContextInit>({});
 
@@ -26,7 +27,13 @@ export function MyPoKemonContextProvider({ children }: any) {
 
   return (
     <MyPoKemonContext.Provider
-      value={{ Mypokemons, loader, numberOfPokemons, setCurrentPage }}
+      value={{
+        Mypokemons,
+        loader,
+        numberOfPokemons,
+        setCurrentPage,
+        currentPage,
+      }}
     >
       {children}
     </MyPoKemonContext.Provider>
