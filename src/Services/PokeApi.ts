@@ -16,3 +16,8 @@ const getPokemonNumberFromUrl=(url:string)=>{
 export const getPokemonCount = (resData:any):number =>{
     return resData.count
 }
+
+export const prefetchDataState = (pokemonName:string) =>{
+    
+
+}

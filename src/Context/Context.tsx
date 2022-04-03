@@ -16,6 +16,7 @@ export function MyPoKemonContextProvider({ children }: any) {
     currentPage,
     PokemonsPerPage
   );
+
   const [Mypokemons, setMyPokemons] = useState<Pokemon[] | undefined>([]);
   useEffect(() => {
     setMyPokemons(pokemons);
