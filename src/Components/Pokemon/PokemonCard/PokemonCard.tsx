@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
@@ -8,7 +8,9 @@ import { Pokemon } from "../../../Types/PokemonType";
 import UnknowPokemon from "../../../unknowPokemon.png";
 import PrefetchDataHover from "../../../Hooks/usePrefetchDataHover";
 import loading from "../../../simple_pokeball.gif";
-import { getPokemonImage } from "../../../Services/PokeApi";
+import { getPokemonImage, getPokemonStats } from "../../../Services/PokeApi";
+import { MyPoKemonContext } from "../../../Context/Context";
+import { mutatePokemonLocalStorage } from "../../../Services/LocalStorage";
 interface PokemonCardProps {
   MyPokemon: Pokemon;
 }
@@ -16,12 +18,17 @@ interface PokemonCardProps {
 export default function PokemonCard({ MyPokemon }: PokemonCardProps) {
   const { name, number } = MyPokemon;
   const [image, setImage] = useState<string>(UnknowPokemon);
+  let { currentPage } = useContext(MyPoKemonContext);
+
   const handleHover = () => {
-    setImage(loading);
+    image === UnknowPokemon && setImage(loading);
+    mutatePokemonLocalStorage(name, currentPage || 1);
     PrefetchDataHover(name).then((res) => {
-      console.log(getPokemonImage(res.data));
-      if (getPokemonImage(res.data)) setImage(getPokemonImage(res.data));
-      else setImage(UnknowPokemon);
+      console.log(getPokemonStats(res.data));
+      if (getPokemonImage(res.data)) {
+        MyPokemon.image = getPokemonImage(res.data);
+        setImage(getPokemonImage(res.data));
+      } else setImage(UnknowPokemon);
     });
   };
   return (

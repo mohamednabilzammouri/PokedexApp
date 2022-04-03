@@ -20,3 +20,13 @@ export const getPokemonCount = (resData:any):number =>{
 export const getPokemonImage=(ResData:any):string =>{
     return ResData.sprites.other.dream_world.front_default
 }
+
+export const getPokemonTypes=(ResData:any):string =>{
+    return ResData.types
+}
+export const getPokemonStats=(ResData:any):string =>{
+    return ResData.stats
+}
+
+
+
