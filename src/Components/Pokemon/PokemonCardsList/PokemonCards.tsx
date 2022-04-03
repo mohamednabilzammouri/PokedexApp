@@ -14,7 +14,6 @@ function PokemonCards({ DisplayedPokemons }: PokemonCardsProps): JSX.Element {
       {DisplayedPokemons.map(({ name, number }) => (
         <PokemonCard key={number} MyPokemon={{ name: name, number: number }} />
       ))}
-      <PaginationComponent />
     </StyledPokeCards>
   );
 }
