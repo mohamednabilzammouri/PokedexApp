@@ -1,5 +1,6 @@
 import React from "react";
 import { Pokemon } from "../../../Types/PokemonType";
+import PaginationComponent from "../../Pagination/Pagination";
 import PokemonCard from "../PokemonCard/PokemonCard";
 import { StyledPokeCards } from "./PokemonCardsStyle";
 
@@ -13,6 +14,7 @@ function PokemonCards({ DisplayedPokemons }: PokemonCardsProps): JSX.Element {
       {DisplayedPokemons.map(({ name, number }) => (
         <PokemonCard key={number} MyPokemon={{ name: name, number: number }} />
       ))}
+      <PaginationComponent />
     </StyledPokeCards>
   );
 }

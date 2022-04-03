@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { StyledPagination } from "./PaginationStyle";
 import { MyPoKemonContext } from "../../Context/Context";
 import { PokemonsPerPage } from "../../Constants/PokemonsPerPage";
+import { StyledPagination } from "./PaginationStyle";
 
 export default function PaginationComponent() {
   let { numberOfPokemons, setCurrentPage } = useContext(MyPoKemonContext);
