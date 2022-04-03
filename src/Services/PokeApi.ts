@@ -13,3 +13,11 @@ export const getPokemonNameNumberArray = (resData:any):Pokemon[] =>{
 const getPokemonNumberFromUrl=(url:string)=>{
     return parseInt(url.split("/")[6]);
 }
+export const getPokemonCount = (resData:any):number =>{
+    return resData.count
+}
+
+export const prefetchDataState = (pokemonName:string) =>{
+    
+
+}

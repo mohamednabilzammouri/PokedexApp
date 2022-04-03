@@ -1,38 +1,54 @@
 import { useEffect, useState } from "react";
 import { Pokemon } from "../Types/PokemonType";
 import axios from "axios";
-import { getPokemonNameNumberArray } from "../Services/PokeApi";
-import { useLocalStorage } from "./useLocalStorage";
+import {
+  getPokemonCount,
+  getPokemonNameNumberArray,
+} from "../Services/PokeApi";
+import {
+  checkIfExistInLocalStorage,
+  getItemFromLocalStorage,
+  setItemToLocalStorage,
+} from "../Services/LocalStorage";
+import { PokeApiUrl } from "../Constants/PokemonsPerPage";
 
 function useGetPokemonNameNumberFromApi(
   CurrentPage: number,
   PokemonsPerPage: number
 ) {
-  const [pokemons, setPokemons] = useState<Pokemon[]>();
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loader, setLoader] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const [storedValue, setValue] = useLocalStorage(CurrentPage, pokemons);
+  const [numberOfPokemons, setNumberOfPokemons] = useState<number>();
   const offset = (CurrentPage - 1) * PokemonsPerPage;
 
   useEffect(() => {
-    if (!storedValue) {
+    if (!checkIfExistInLocalStorage(CurrentPage.toString())) {
       axios
-        .get(
-          `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${PokemonsPerPage}`
-        )
+        .get(`${PokeApiUrl}?offset=${offset}&limit=${PokemonsPerPage}`)
         .then((res: any) => {
-          setPokemons(getPokemonNameNumberArray(res.data));
-          setValue(getPokemonNameNumberArray(res.data));
+          const PokemonArray: Pokemon[] = getPokemonNameNumberArray(res.data);
+          const PokemonCount: number = getPokemonCount(res.data);
+          setPokemons(PokemonArray);
+          setNumberOfPokemons(PokemonCount);
+          setItemToLocalStorage("count", JSON.stringify(PokemonCount));
+          setItemToLocalStorage(
+            CurrentPage.toString(),
+            JSON.stringify(PokemonArray)
+          );
+
           setLoader(false);
         })
         .catch(() => setError(true));
     } else {
-      setPokemons(storedValue);
+      setPokemons(JSON.parse(getItemFromLocalStorage(CurrentPage.toString())));
+      setNumberOfPokemons(parseInt(getItemFromLocalStorage("count")));
+
       setLoader(false);
     }
-  }, []);
+  }, [CurrentPage]);
 
-  return { pokemons, loader, error };
+  return { pokemons, loader, error, numberOfPokemons };
 }
 
 export default useGetPokemonNameNumberFromApi;
