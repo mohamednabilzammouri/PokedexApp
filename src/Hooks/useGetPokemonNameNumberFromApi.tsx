@@ -3,7 +3,10 @@ import { Pokemon } from "../Types/PokemonType";
 import axios from "axios";
 import { getPokemonNameNumberArray } from "../Services/PokeApi";
 
-function useGetPokemonNameNumber(CurrentPage: number, PokemonsPerPage: number) {
+function useGetPokemonNameNumberFromApi(
+  CurrentPage: number,
+  PokemonsPerPage: number
+) {
   const [pokemons, setPokemons] = useState<Pokemon[]>();
   const [loader, setLoader] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
@@ -15,15 +18,13 @@ function useGetPokemonNameNumber(CurrentPage: number, PokemonsPerPage: number) {
         `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${PokemonsPerPage}`
       )
       .then((res: any) => {
-        setTimeout(() => {
-          setPokemons(getPokemonNameNumberArray(res.data));
-          setLoader(false);
-        }, 1000);
+        setPokemons(getPokemonNameNumberArray(res.data));
+        setLoader(false);
       })
       .catch(() => setError(true));
   }, []);
 
-  return { pokemons, loader, error };
+  return { pokemons, loader };
 }
 
-export default useGetPokemonNameNumber;
+export default useGetPokemonNameNumberFromApi;
