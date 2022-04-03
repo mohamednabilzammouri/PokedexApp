@@ -4,6 +4,7 @@ import Card from "@mui/material/Card";
 export const PokeCard = styled(Card)`
   width: 20%;
   margin: 1em;
+  text-align: center;
   @media (max-width: 768px) {
     width: 100%;
   }

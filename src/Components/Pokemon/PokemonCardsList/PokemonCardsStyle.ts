@@ -6,4 +6,5 @@ display: flex;
 flex-direction: row;
 flex-wrap: wrap;
 margin-top: 5%;
+padding-bottom: 5%;
 `
