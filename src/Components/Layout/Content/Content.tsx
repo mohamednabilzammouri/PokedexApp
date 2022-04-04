@@ -7,6 +7,7 @@ import { ContentContainer } from "./ContentStyle";
 
 function Content() {
   const { Mypokemons, loader } = useContext(MyPoKemonContext);
+  console.log("Context", Mypokemons);
 
   return (
     <ContentContainer>

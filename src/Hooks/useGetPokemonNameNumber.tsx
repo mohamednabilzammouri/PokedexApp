@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { Pokemon } from "../Types/PokemonType";
 import axios from "axios";
 import {
@@ -36,14 +36,12 @@ function useGetPokemonNameNumberFromApi(
             CurrentPage.toString(),
             JSON.stringify(PokemonArray)
           );
-
           setLoader(false);
         })
         .catch(() => setError(true));
     } else {
       setPokemons(getItemFromLocalStorage(CurrentPage.toString()));
       setNumberOfPokemons(parseInt(getItemFromLocalStorage("count")));
-
       setLoader(false);
     }
   }, [CurrentPage]);

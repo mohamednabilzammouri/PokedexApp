@@ -22,8 +22,8 @@ export function MyPoKemonContextProvider({ children }: any) {
   useEffect(() => {
     setMyPokemons(pokemons);
     console.log("page", currentPage);
-    console.log("pk", pokemons);
-  }, [pokemons, currentPage, setCurrentPage]);
+    console.log("pk", Mypokemons);
+  }, [pokemons, currentPage]);
 
   return (
     <MyPoKemonContext.Provider

@@ -1,40 +1,47 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { PokeCard } from "./PokemonCardStyle";
 import { Pokemon } from "../../../Types/PokemonType";
-import UnknowPokemon from "../../../unknowPokemon.png";
-import PrefetchDataHover from "../../../Hooks/usePrefetchDataHover";
-import loading from "../../../simple_pokeball.gif";
-import { getPokemonImage, getPokemonStats } from "../../../Services/PokeApi";
 import { MyPoKemonContext } from "../../../Context/Context";
-import { mutatePokemonLocalStorage } from "../../../Services/LocalStorage";
+import UnknowPokemon from "../../../unknowPokemon.png";
+import loading from "../../../simple_pokeball.gif";
+import {
+  checkForAdditionalData,
+  mutatePokemonLocalStorage,
+} from "../../../Services/LocalStorage";
+import { PokeApiUrl } from "../../../Constants/PokemonsPerPage";
+import axios from "axios";
+import { getPokemonImage } from "../../../Services/PokeApi";
+
 interface PokemonCardProps {
   MyPokemon: Pokemon;
 }
 
 export default function PokemonCard({ MyPokemon }: PokemonCardProps) {
-  const { name, number } = MyPokemon;
-  const [image, setImage] = useState<string>(UnknowPokemon);
+  const { name, number, image } = MyPokemon;
   let { currentPage } = useContext(MyPoKemonContext);
+  const [cardImage, setCardImage] = useState(UnknowPokemon);
 
   const handleHover = () => {
-    image === UnknowPokemon && setImage(loading);
-    mutatePokemonLocalStorage(name, currentPage || 1);
-    PrefetchDataHover(name).then((res) => {
-      console.log(getPokemonStats(res.data));
-      if (getPokemonImage(res.data)) {
-        MyPokemon.image = getPokemonImage(res.data);
-        setImage(getPokemonImage(res.data));
-      } else setImage(UnknowPokemon);
-    });
+    if (!checkForAdditionalData(name, currentPage || 1)) {
+      axios.get(`${PokeApiUrl}/${name}`).then((res: any) => {
+        mutatePokemonLocalStorage(
+          name,
+          currentPage || 1,
+          getPokemonImage(res.data)
+        );
+        setCardImage(getPokemonImage(res.data));
+      });
+    }
   };
+
   return (
     <PokeCard onMouseEnter={handleHover}>
       <CardActionArea>
-        <CardMedia component="img" image={image} />
+        <CardMedia component="img" image={image ? image : cardImage} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             Name: {name}

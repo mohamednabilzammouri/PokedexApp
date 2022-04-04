@@ -13,13 +13,17 @@ export const setItemToLocalStorage = (key:string ,value:string):void =>{
     localStorage.setItem(key, value);
 }
 
-export const  mutatePokemonLocalStorage = (pokemonName:string, pageNumber:number) =>{
-
+export const  mutatePokemonLocalStorage = (pokemonName:string, pageNumber:number,image:string) =>{
 let Pokemons:Pokemon[] = getItemFromLocalStorage(pageNumber.toString())
 let Mypokemon:Pokemon|undefined = Pokemons.find((pokemon:Pokemon)=>pokemon.name===pokemonName)
-if(Mypokemon)  Mypokemon.image = "aaa" ;
+if(Mypokemon)  Mypokemon.image = image ;
 console.log(Mypokemon)
-
 setItemToLocalStorage(pageNumber.toString(),JSON.stringify(Pokemons))
+}
 
+export const checkForAdditionalData=(pokemonName:string, pageNumber:number)=>{
+let Pokemons:Pokemon[] = getItemFromLocalStorage(pageNumber.toString())
+let Mypokemon:Pokemon|undefined = Pokemons.find((pokemon:Pokemon)=>pokemon.name===pokemonName)
+if (Mypokemon?.image) return true
+return false
 }
